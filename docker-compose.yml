@@ -176,7 +176,7 @@ services:
             https_proxy: $https_proxy
     web: 
         image: google/nodejs-hello
-        port: 
+        ports: 
             - 80:80
 
 
