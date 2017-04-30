@@ -175,6 +175,18 @@ services:
             no_proxy: "gateway"
             https_proxy: $https_proxy
 
+    nginx:
+        image: nginx
+        container_name: nginx
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - 'nginx-config:/etc/nginx/conf.d'
+            - 'nginx-certs:/etc/nginx/certs'
+            - 'nginx-vhosts:/etc/nginx/vhost.d'
+            - 'nginx-webroot:/usr/share/nginx/html'
+
     dockergen:
         image: jwilder/docker-gen
         container_name: nginx-docker-gen
@@ -186,29 +198,23 @@ services:
             - 'nginx-webroot:/usr/share/nginx/html'
             - '/var/run/docker.sock:/tmp/docker.sock:ro'
             - './nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl'
-        networks: 
-            - functions
 
     letsencrypt:
         image: jrcs/letsencrypt-nginx-proxy-companion
         environment:
-            NGINX_DOCKER_GEN_CONTAINER: nginx-docker-gen
+        NGINX_DOCKER_GEN_CONTAINER: nginx-docker-gen
         volumes:
             - 'nginx-config:/etc/nginx/conf.d'
             - 'nginx-certs:/etc/nginx/certs'
             - 'nginx-vhosts:/etc/nginx/vhost.d'
             - 'nginx-webroot:/usr/share/nginx/html'
             - '/var/run/docker.sock:/var/run/docker.sock:ro'
-        networks: 
-            - functions
     web: 
         image: google/nodejs-hello
-        ports: 
-            - 80:80
         environment: 
             VIRTUAL_HOST: 'alexa.1800c.xyz'
-        networks: 
-            - functions
+            LETSENCRYPT_HOST: 'alexa.1800c.xyz'
+            LETSENCRYPT_EMAIL: 'jgreenemeier@homeadvisor.com'
 
 volumes:
   nginx-config:
