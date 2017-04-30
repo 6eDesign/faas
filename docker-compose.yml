@@ -202,7 +202,7 @@ services:
     letsencrypt:
         image: jrcs/letsencrypt-nginx-proxy-companion
         environment:
-        NGINX_DOCKER_GEN_CONTAINER: nginx-docker-gen
+            NGINX_DOCKER_GEN_CONTAINER: nginx-docker-gen
         volumes:
             - 'nginx-config:/etc/nginx/conf.d'
             - 'nginx-certs:/etc/nginx/certs'
