@@ -209,7 +209,7 @@ networks:
         driver: overlay
         # Docker does not support this option yet - maybe create outside of the stack and reference as "external"?
         #attachable: true
-    swarm: 
-        default: 
-            external: 
-                name: nginx-proxy
+    
+    default: 
+        external: 
+            name: nginx-proxy
