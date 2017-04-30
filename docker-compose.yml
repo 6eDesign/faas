@@ -197,6 +197,12 @@ services:
             - 'nginx-vhosts:/etc/nginx/vhost.d'
             - 'nginx-webroot:/usr/share/nginx/html'
             - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    web: 
+        image: google/nodejs-hello
+        ports: 
+            - 80:80
+        environment: 
+            VIRTUAL_HOST: 'alexa.1800c.xyz'
 
 volumes:
   nginx-config:
